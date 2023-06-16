@@ -7,7 +7,6 @@ import httpStatus from 'http-status';
 export const createUser: RequestHandler = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const result = await createUserServices(req.body);
-    next();
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -15,5 +14,6 @@ export const createUser: RequestHandler = catchAsync(
       message: 'Academic Semester created successfully',
       data: result,
     });
+    next();
   }
 );
