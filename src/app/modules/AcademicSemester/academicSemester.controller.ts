@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import {
   createSemester,
+  deleteSemesterServices,
   getAllSemestersServices,
   getSingleSemesterServices,
+  updateSemesterServices,
 } from './academicSemester.service';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
@@ -50,6 +52,32 @@ export const getSingleSemester = catchAsync(
       statusCode: httpStatus.OK,
       success: true,
       message: 'Semester get successfully',
+      data: result,
+    });
+  }
+);
+
+export const updateSemester = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await updateSemesterServices(req.params.id, req.body);
+
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester updated successfully',
+      data: result,
+    });
+  }
+);
+
+export const deleteSemester = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await deleteSemesterServices(req.params.id);
+
+    sendResponse<IAcademicSemester>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester deleted successfully',
       data: result,
     });
   }

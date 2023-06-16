@@ -2,3 +2,4 @@ Fri Jun 16 2023 16:30:1 } [PH] error: $and/$or/$nor must be a nonempty array
 Fri Jun 16 2023 16:33:24 } [PH] error: Invalid semester code
 Fri Jun 16 2023 16:34:7 } [PH] error: Invalid semester code
 Fri Jun 16 2023 16:53:37 } [PH] error: Cast to ObjectId failed for value "64863acbf5bda57fc11476" (type string) at path "_id" for model "AcademicSemester"
+Fri Jun 16 2023 16:55:23 } [PH] error: Cast to ObjectId failed for value "64863acbf5bda57fc11476" (type string) at path "_id" for model "AcademicSemester"
