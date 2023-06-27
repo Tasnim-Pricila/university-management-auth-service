@@ -1,13 +1,13 @@
 import express from 'express';
-import { createUser } from './users.controller';
 import { validateRequest } from '../../../middlewares/validateRequest';
 import createUserZodSchema from './users.validation';
+import { createStudent } from './users.controller';
 const userRouter = express.Router();
 
 userRouter.post(
-  '/create-user',
+  '/create-student',
   validateRequest(createUserZodSchema),
-  createUser
+  createStudent
 );
 // userRouter.get('/', createUser)
 

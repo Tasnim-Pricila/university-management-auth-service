@@ -4,8 +4,8 @@ import {
   IAcademicDepartment,
   IAcademicDepartmentFilters,
 } from './academicDepartment.interface';
-import { IPaginationOptions } from '../users/interfaces/pagination';
-import { IGenericResponse } from '../users/interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
 import { calculatePagination } from '../../../helper/paginationHelper';
 import { academicDepartmentSearchableFields } from './academicDepartment.constant';
 

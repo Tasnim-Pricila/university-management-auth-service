@@ -1,8 +1,8 @@
 import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import { calculatePagination } from '../../../helper/paginationHelper';
-import { IGenericResponse } from '../users/interfaces/common';
-import { IPaginationOptions } from '../users/interfaces/pagination';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import {
   academicSemesterSearchableFields,
   academicSemesterTitleCodeMapper,
@@ -46,6 +46,9 @@ export const getAllSemestersServices = async (
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
+        // if([field] === 'minPrice'){
+
+        // }
         [field]: value,
       })),
     });

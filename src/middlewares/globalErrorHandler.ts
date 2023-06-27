@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { ErrorRequestHandler } from 'express';
 import config from '../config';
-import { IGenericErrorMessage } from '../app/modules/users/interfaces/error';
+import { IGenericErrorMessage } from '../interfaces/error';
 import handleValidationError from '../errors/handleValidationError';
 import ApiError from '../errors/ApiError';
 import { errorLogger } from '../shared/logger';
