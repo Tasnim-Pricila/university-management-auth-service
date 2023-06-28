@@ -8,7 +8,7 @@ import {
 import { updateAdminZodSchema } from './admin.validation';
 import { validateRequest } from '../../../middlewares/validateRequest';
 
-const adminRouter = express.Router();
+export const adminRouter = express.Router();
 
 adminRouter.get('/:id', getSingleAdmin);
 adminRouter.get('/', getAllAdmins);

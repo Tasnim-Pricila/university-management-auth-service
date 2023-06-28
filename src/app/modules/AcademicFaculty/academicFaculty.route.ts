@@ -15,7 +15,7 @@ import {
 export const academicFacultyRouter = express.Router();
 
 academicFacultyRouter.post(
-  '/create-faculty',
+  '/',
   validateRequest(createFacultyZodSchema),
   createFaculty
 );
