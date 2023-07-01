@@ -7,9 +7,11 @@ import {
   updateFaculty,
 } from './faculty.controller';
 import { updateFacultyZodSchema } from './faculty.validation';
+import { auth } from '../../../middlewares/auth';
+import { ENUM_USER_ROLE } from '../../../enum/user';
 
 export const facultyRouter = express.Router();
-facultyRouter.get('/', getAllFaculties);
+facultyRouter.get('/', auth(ENUM_USER_ROLE.STUDENT), getAllFaculties);
 
 facultyRouter.get('/:id', getSingleFaculty);
 
