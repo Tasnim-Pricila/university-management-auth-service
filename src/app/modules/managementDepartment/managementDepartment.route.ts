@@ -12,24 +12,22 @@ import {
   updateDepartment,
 } from './managementDepartment.controllers';
 
-const router = express.Router();
+export const managementDepartmentRouter = express.Router();
 
-router.post(
+managementDepartmentRouter.post(
   '/create-department',
   validateRequest(createManagementDepartmentZodSchema),
   createDepartment
 );
 
-router.get('/:id', getSingleDepartment);
+managementDepartmentRouter.get('/:id', getSingleDepartment);
 
-router.patch(
+managementDepartmentRouter.patch(
   '/:id',
   validateRequest(updateManagementDepartmentZodSchema),
   updateDepartment
 );
 
-router.delete('/:id', deleteDepartment);
+managementDepartmentRouter.delete('/:id', deleteDepartment);
 
-router.get('/', getAllDepartments);
-
-export const ManagementDepartmentRoutes = router;
+managementDepartmentRouter.get('/', getAllDepartments);

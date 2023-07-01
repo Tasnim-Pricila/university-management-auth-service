@@ -95,6 +95,7 @@ export const createFacultyService = async (
   if (!user.password) {
     user.password = config.default_faculty_pass as string;
   }
+
   // set role
   user.role = 'faculty';
 
