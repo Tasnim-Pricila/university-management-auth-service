@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { loginServices } from './auth.service';
-import { ILoginResponse } from './auth.interface';
+import { loginServices, refreshTokenServices } from './auth.service';
+import { ILoginResponse, IRefreshTokenResponse } from './auth.interface';
 import config from '../../../config';
 
 export const loginController = catchAsync(
@@ -16,13 +16,32 @@ export const loginController = catchAsync(
       secure: config.env === 'production',
       httpOnly: true,
     };
-    res.cookie('refreshTooken', refreshToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
     sendResponse<ILoginResponse>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'User logged in successfully !',
       data: others,
+    });
+  }
+);
+export const refreshTokenController = catchAsync(
+  async (req: Request, res: Response) => {
+    const { refreshToken } = req.cookies;
+    const result = await refreshTokenServices(refreshToken);
+
+    const cookieOptions = {
+      secure: config.env === 'production',
+      httpOnly: true,
+    };
+
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+    sendResponse<IRefreshTokenResponse>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User logged in successfully !',
+      data: result,
     });
   }
 );
