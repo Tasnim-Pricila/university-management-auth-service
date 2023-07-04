@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
-import { loginServices, refreshTokenServices } from './auth.service';
+import {
+  changePasswordService,
+  loginServices,
+  refreshTokenServices,
+} from './auth.service';
 import { ILoginResponse, IRefreshTokenResponse } from './auth.interface';
 import config from '../../../config';
 
@@ -26,6 +30,7 @@ export const loginController = catchAsync(
     });
   }
 );
+
 export const refreshTokenController = catchAsync(
   async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
@@ -35,13 +40,28 @@ export const refreshTokenController = catchAsync(
       secure: config.env === 'production',
       httpOnly: true,
     };
-
     res.cookie('refreshToken', refreshToken, cookieOptions);
+
     sendResponse<IRefreshTokenResponse>(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'User logged in successfully !',
       data: result,
+    });
+  }
+);
+
+export const changePassword = catchAsync(
+  async (req: Request, res: Response) => {
+    const user = req.user;
+    const { ...passwordData } = req.body;
+
+    await changePasswordService(user, passwordData);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: 'Password changed successfully !',
     });
   }
 );

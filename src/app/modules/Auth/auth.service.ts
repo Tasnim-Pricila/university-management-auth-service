@@ -1,10 +1,10 @@
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import { User } from '../users/users.model';
-import { ILoginResponse, ILoginUser } from './auth.interface';
+import { IChangePassword, ILoginResponse, ILoginUser } from './auth.interface';
 import config from '../../../config';
 import { createToken, verifyToken } from '../../../helper/jwtHelpers';
-import { Secret } from 'jsonwebtoken';
+import { JwtPayload, Secret } from 'jsonwebtoken';
 
 export const loginServices = async (
   payload: ILoginUser
@@ -21,7 +21,7 @@ export const loginServices = async (
 
   if (
     isUserExist.password &&
-    !user.isPasswordMatch(password, isUserExist.password)
+    !(await user.isPasswordMatch(password, isUserExist.password))
   ) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
@@ -79,4 +79,53 @@ export const refreshTokenServices = async (token: string) => {
   return {
     accessToken,
   };
+};
+
+export const changePasswordService = async (
+  user: JwtPayload | null,
+  payload: IChangePassword
+): Promise<void> => {
+  const { oldPassword, newPassword } = payload;
+
+  // // checking is user exist
+  // const isUserExist = await User.isUserExist(user?.userId);
+
+  //alternative way
+  const isUserExist = await User.findOne({ id: user?.userId }).select(
+    '+password'
+  );
+
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
+  }
+  const userr = new User();
+
+  // checking old password
+  if (
+    isUserExist.password &&
+    !(await userr.isPasswordMatch(oldPassword, isUserExist.password))
+  ) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Old Password is incorrect');
+  }
+
+  // // hash password before saving
+  // const newHashedPassword = await bcrypt.hash(
+  //   newPassword,
+  //   Number(config.bycrypt_salt_rounds)
+  // );
+
+  // const query = { id: user?.userId };
+  // const updatedData = {
+  //   password: newHashedPassword,  //
+  //   needsPasswordChange: false,
+  //   passwordChangedAt: new Date(), //
+  // };
+
+  // await User.findOneAndUpdate(query, updatedData);
+  // data update
+  isUserExist.password = newPassword;
+  isUserExist.needsPasswordChange = false;
+
+  // updating using save()
+  isUserExist.save();
 };
